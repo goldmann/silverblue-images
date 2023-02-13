@@ -1,0 +1,6 @@
+FROM registry.fedoraproject.org/fedora-toolbox:37
+
+RUN INSTALL_PKGS="fish" && \
+    dnf -y --nodocs --setopt=install_weak_deps=0 install $INSTALL_PKGS && \
+    dnf clean all && \
+    rm -rf /mnt/rootfs/var/cache/* /mnt/rootfs/var/log/dnf* /mnt/rootfs/var/log/yum.*
