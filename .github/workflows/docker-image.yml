@@ -1,0 +1,36 @@
+name: Log in to Quay.io
+on:
+  push:
+
+env:
+  REGISTRY_USER: goldmann
+  IMAGE_REGISTRY: quay.io
+#   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+jobs:
+  build:
+    name: Build image
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Buildah Action
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/silverblue-base
+        tags: latest ${{ github.sha }}
+        context: base
+        containerfiles: |
+          ./Containerfile
+#   login:
+#     name: Log in to image registry
+#     runs-on: ubuntu-20.04
+#     steps:
+
+#       - name: Log in to Quay.io
+#         uses: redhat-actions/podman-login@v1
+#         with:
+#           username: ${{ env.REGISTRY_USER }}
+#           password: ${{ env.REGISTRY_PASSWORD }}
+#           registry: ${{ env.IMAGE_REGISTRY }}
